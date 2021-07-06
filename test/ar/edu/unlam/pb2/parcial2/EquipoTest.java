@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import ar.edu.unlam.pb2.parcial2.enumeradores.Posicion;
+import ar.edu.unlam.pb2.parcial2.excepciones.GolNoEncontradoException;
+import ar.edu.unlam.pb2.parcial2.excepciones.JugadorNoEncontradoException;
 
 public class EquipoTest {
 
@@ -54,6 +56,43 @@ public class EquipoTest {
 		assertEquals(nuevo.cantidadJugadoresEquipo2(), 2, 0.1);
 		
 		
+	}
+	
+	@Test
+	public void testQueSePuedaRegistrarUnGol() throws JugadorNoEncontradoException, GolNoEncontradoException{
+		Torneo actual = new Torneo();
+		actual.ingresarMiembro(new Jugador("Gonzalo Montial", "Argentina", 123, Posicion.DEF, 4));
+		actual.ingresarMiembro(new Dt("Lionel Scaloni", "Argentina", 234, 45));
+		actual.ingresarMiembro(new Jugador("Guillermo Maripan", "Chile", 767, Posicion.DEF, 5));
+		actual.ingresarMiembro(new Jugador("Jean Meneses", "Chile", 625, Posicion.DEL, 9));
+		actual.ingresarMiembro(new Jugador("Jose Maria Jimenez", "Uruguay", 736, Posicion.DEF, 3));
+		actual.ingresarMiembro(new Dt("Martin Lasarte", "Chile", 7278, 50));
+		
+		//no deberia contar los dt
+		
+		Partido nuevo = new Partido("Argentina", "Chile");
+		nuevo.cargarListadoJugadores(actual);
+		nuevo.registrarGol(4, "Argentina", 33);
+		Gol ultimo = new Gol(new Jugador("Gonzalo Montial", "Argentina", 123, Posicion.DEF, 4), 33);
+		
+		assertEquals(nuevo.getGol(33), ultimo);
+	}
+	
+	@Test(expected = JugadorNoEncontradoException.class)
+	public void testJugadorNoEncontrado() throws JugadorNoEncontradoException{
+		Torneo actual = new Torneo();
+		actual.ingresarMiembro(new Jugador("Gonzalo Montial", "Argentina", 123, Posicion.DEF, 4));
+		actual.ingresarMiembro(new Dt("Lionel Scaloni", "Argentina", 234, 45));
+		actual.ingresarMiembro(new Jugador("Guillermo Maripan", "Chile", 767, Posicion.DEF, 5));
+		actual.ingresarMiembro(new Jugador("Jean Meneses", "Chile", 625, Posicion.DEL, 9));
+		actual.ingresarMiembro(new Jugador("Jose Maria Jimenez", "Uruguay", 736, Posicion.DEF, 3));
+		actual.ingresarMiembro(new Dt("Martin Lasarte", "Chile", 7278, 50));
+		
+		//no deberia contar los dt
+		
+		Partido nuevo = new Partido("Argentina", "Chile");
+		nuevo.cargarListadoJugadores(actual);
+		nuevo.registrarGol(3, "Argentina", 33);
 	}
 	
 	
