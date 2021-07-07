@@ -89,4 +89,26 @@ public class Partido {
 		return lista;
 	}
 
+	public String getEquipoGanador() {
+		Iterator it = goles.iterator();
+		ArrayList<Gol> lista = new ArrayList<Gol>();
+		Integer contadorEquipo1 = 0;
+		Integer contadorEquipo2 = 0;
+		while (it.hasNext()) {
+			Gol actual = (Gol) it.next();
+			if(actual.getJugador().getEquipo().equals(this.equipo1)) {
+				contadorEquipo1++;
+			}else {
+				contadorEquipo2++;
+			}
+		}
+		if(contadorEquipo1>contadorEquipo2) {
+			return this.equipo1;
+		}else if(contadorEquipo2>contadorEquipo1) {
+			return this.equipo2;
+		}else {
+			return "Empate";
+		}
+	}
+
 }
