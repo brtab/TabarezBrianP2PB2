@@ -1,6 +1,8 @@
 package ar.edu.unlam.pb2.parcial2;
 
-public class Gol {
+import java.util.Comparator;
+
+public class Gol implements Comparable<Gol>{
 
 	private Jugador jugador;
 	private Integer minuto;
@@ -47,6 +49,12 @@ public class Gol {
 		} else if (!minuto.equals(other.minuto))
 			return false;
 		return true;
+	}
+
+
+	@Override
+	public int compareTo(Gol o) {
+		return this.minuto.compareTo(o.minuto);
 	}
 	
 	

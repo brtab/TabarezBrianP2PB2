@@ -2,6 +2,9 @@ package ar.edu.unlam.pb2.parcial2;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.TreeSet;
+
 import org.junit.Test;
 
 import ar.edu.unlam.pb2.parcial2.enumeradores.Posicion;
@@ -88,11 +91,32 @@ public class EquipoTest {
 		actual.ingresarMiembro(new Jugador("Jose Maria Jimenez", "Uruguay", 736, Posicion.DEF, 3));
 		actual.ingresarMiembro(new Dt("Martin Lasarte", "Chile", 7278, 50));
 		
-		//no deberia contar los dt
 		
 		Partido nuevo = new Partido("Argentina", "Chile");
 		nuevo.cargarListadoJugadores(actual);
 		nuevo.registrarGol(3, "Argentina", 33);
+	}
+	
+	@Test
+	public void testGolesOrdenados() throws JugadorNoEncontradoException {
+		Torneo actual = new Torneo();
+		actual.ingresarMiembro(new Jugador("Gonzalo Montial", "Argentina", 123, Posicion.DEF, 4));
+		actual.ingresarMiembro(new Dt("Lionel Scaloni", "Argentina", 234, 45));
+		actual.ingresarMiembro(new Jugador("Guillermo Maripan", "Chile", 767, Posicion.DEF, 5));
+		actual.ingresarMiembro(new Jugador("Jean Meneses", "Chile", 625, Posicion.DEL, 9));
+		actual.ingresarMiembro(new Jugador("Jose Maria Jimenez", "Uruguay", 736, Posicion.DEF, 3));
+		actual.ingresarMiembro(new Dt("Martin Lasarte", "Chile", 7278, 50));
+		
+		Partido nuevo = new Partido("Argentina", "Chile");
+		nuevo.cargarListadoJugadores(actual);
+		nuevo.registrarGol(4, "Argentina", 33);
+		nuevo.registrarGol(9, "Chile", 30);
+		nuevo.registrarGol(9, "Chile", 50);
+		
+		ArrayList<Gol> goles = nuevo.getGolesCronologicamente();
+		
+		assertEquals(goles.get(0).getMinuto(), 30, 0.1);
+		assertEquals(goles.get(2).getMinuto(), 50, 0.1);
 	}
 	
 	
